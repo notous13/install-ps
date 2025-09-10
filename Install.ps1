@@ -6,11 +6,15 @@ if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
     Write-Host "Chocolatey not found. Installing Chocolatey..." -ForegroundColor Cyan
     try {
         [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+
         iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
         Write-Host "Chocolatey installed successfully." -ForegroundColor Green
+
+        Write-Host "Waiting a few seconds for Chocolatey to initialize..." -ForegroundColor Yellow
         Start-Sleep -Seconds 5
+
         if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
-            Write-Host "Chocolatey command still not found after installation." -ForegroundColor Red
+            Write-Host "Chocolatey command still not found after installation. Please restart PowerShell and try again, or manually verify installation." -ForegroundColor Red
             exit 1
         }
     }
@@ -21,6 +25,8 @@ if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
 } else {
     Write-Host "Chocolatey is already installed." -ForegroundColor Green
 }
+
+Write-Host "Starting common application installation..." -ForegroundColor Green
 
 $applicationsToInstall = @(
     "googlechrome",
@@ -37,48 +43,24 @@ $applicationsToInstall = @(
     "designreview",
     "discord.install",
     "snipaste"
+    #"wps-office-free"
 )
 
-Write-Host "`nChoose installation mode:" -ForegroundColor Cyan
-Write-Host "1. Full installation (all apps)" -ForegroundColor Yellow
-Write-Host "2. Select apps individually" -ForegroundColor Yellow
-$choice = Read-Host "Enter 1 or 2"
-
-if ($choice -eq "1") {
-    $selectedApps = $applicationsToInstall
-} elseif ($choice -eq "2") {
-    $selectedApps = @()
-    foreach ($app in $applicationsToInstall) {
-        $answer = Read-Host "Install $app? (y/n)"
-        if ($answer -match '^[Yy]$') {
-            $selectedApps += $app
-        }
-    }
-} else {
-    Write-Host "Invalid choice. Exiting." -ForegroundColor Red
-    exit 1
-}
-
-foreach ($app in $selectedApps) {
-    $installed = choco list --local-only | Select-String -Pattern "^\s*$app\s"
-    if ($installed) {
-        Write-Host "$app already installed, skipping." -ForegroundColor Yellow
-        continue
-    }
-
-    Write-Host "Installing $app..." -ForegroundColor Cyan
+foreach ($app in $applicationsToInstall) {
+    Write-Host "Installing ${app}..." -ForegroundColor Cyan
     try {
-        choco install $app -y --no-progress --ignore-checksums
+        choco install ${app} --force -y --no-progress --ignore-checksums
         if ($LASTEXITCODE -eq 0) {
-            Write-Host "$app installed successfully." -ForegroundColor Green
+            Write-Host "${app} installed successfully." -ForegroundColor Green
         } else {
-            Write-Host "Warning: $app may have failed (Exit Code: $LASTEXITCODE)." -ForegroundColor Yellow
+            Write-Host "Warning: ${app} installation might have failed or completed with issues (Exit Code: $LASTEXITCODE)." -ForegroundColor Yellow
         }
     }
     catch {
-        Write-Host "Error installing $app: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "Error installing ${app}: $($_.Exception.Message)" -ForegroundColor Red
     }
     Write-Host ""
 }
 
-Write-Host "--- Installation complete ---" -ForegroundColor Green
+Write-Host "--- Installation attempts complete. ---" -ForegroundColor Green
+Write-Host "You may need to restart your computer for some changes to take effect." -ForegroundColor Yellow
