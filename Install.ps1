@@ -13,7 +13,8 @@ if ($choice -eq "1") {
 } elseif ($choice -eq "2") {
     Write-Host "`nAvailable applications:" -ForegroundColor Cyan
     for ($i = 0; $i -lt $applicationsToInstall.Count; $i++) {
-        Write-Host ("{0}. {1}" -f ($i+1), $applicationsToInstall[$i]) -ForegroundColor Yellow
+        $num = $i + 1
+        Write-Host ("{0}. {1}" -f $num, $applicationsToInstall[$i]) -ForegroundColor Yellow
     }
 
     $selection = Read-Host "Enter the numbers of apps to install (comma separated, e.g. 1,3,5)"
