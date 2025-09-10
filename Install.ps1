@@ -47,17 +47,17 @@ $applicationsToInstall = @(
 )
 
 foreach ($app in $applicationsToInstall) {
-    Write-Host "Installing ${app}..." -ForegroundColor Cyan
+    Write-Host "Installing $app..." -ForegroundColor Cyan
     try {
-        choco install ${app} --force -y --no-progress --ignore-checksums
+        choco install $app --force -y --no-progress --ignore-checksums
         if ($LASTEXITCODE -eq 0) {
-            Write-Host "${app} installed successfully." -ForegroundColor Green
+            Write-Host "$app installed successfully." -ForegroundColor Green
         } else {
-            Write-Host "Warning: ${app} installation might have failed or completed with issues (Exit Code: $LASTEXITCODE)." -ForegroundColor Yellow
+            Write-Host "Warning: $app installation might have failed or completed with issues (Exit Code: $LASTEXITCODE)." -ForegroundColor Yellow
         }
     }
     catch {
-        Write-Host "Error installing ${app}: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host ("Error installing {0}: {1}" -f $app, $_.Exception.Message) -ForegroundColor Red
     }
     Write-Host ""
 }
