@@ -95,4 +95,4 @@ foreach ($app in $selectedApps) {
     Write-Host ""
 }
 
-Write-Host "--- Instal
+Write-Host "--- Installation complete ---" -ForegroundColor Green
