@@ -30,7 +30,7 @@ $applicationsToInstall = @(
     "foxitreader",
     "omnissa-horizon-client",
     "thunderbird",
-    "dwgtrueview",
+    #"dwgtrueview",
     "designreview",
     "discord.install",
     "snipaste"
