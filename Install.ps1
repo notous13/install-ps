@@ -20,8 +20,8 @@ if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
 
 # List of applications
 $applicationsToInstall = @(
-    "googlechrome",
-    "firefox",
+    "GoogleChrome",
+    "Firefox",
     "vlc",
     "7zip",
     "vscode",
