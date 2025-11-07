@@ -44,7 +44,7 @@ Write-Host "2. Select apps by number (comma separated)" -ForegroundColor Yellow
 
 $choice = Read-Host "Enter 1 or 2"
 $selectedApps = @()
-$cachePath = ".\cache"
+$cachePath = "\\192.168.10.21\production\Auto_install\choco\install-ps\cache"
 
 if ($choice -eq "1") {
     $selectedApps = $applicationsToInstall
