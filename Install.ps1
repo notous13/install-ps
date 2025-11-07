@@ -44,6 +44,7 @@ Write-Host "2. Select apps by number (comma separated)" -ForegroundColor Yellow
 
 $choice = Read-Host "Enter 1 or 2"
 $selectedApps = @()
+$cachePath = ".\cache"
 
 if ($choice -eq "1") {
     $selectedApps = $applicationsToInstall
@@ -82,7 +83,7 @@ foreach ($app in $selectedApps) {
 
     Write-Host "Installing $app..." -ForegroundColor Cyan
     try {
-        choco install $app -y --no-progress --ignore-checksums
+        choco install $app -y --source $cachePath --no-progress --ignore-checksums
         if ($LASTEXITCODE -eq 0) {
             Write-Host "$app installed successfully." -ForegroundColor Green
         } else {
