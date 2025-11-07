@@ -44,7 +44,7 @@ Write-Host "2. Select apps by number (comma separated)" -ForegroundColor Yellow
 
 $choice = Read-Host "Enter 1 or 2"
 $selectedApps = @()
-$cachePath = "\\pgm-fs01\production\Auto_install\choco\install-ps\cache"
+
 
 if ($choice -eq "1") {
     $selectedApps = $applicationsToInstall
@@ -76,6 +76,7 @@ if ($choice -eq "1") {
 # --- Install loop ---
 foreach ($app in $selectedApps) {
     $installed = choco list --local-only --exact $app | Select-String "^$app"
+	$cachePath = "\\pgm-fs01\production\Auto_install\choco\install-ps\cache\${app}"
     if ($installed) {
         Write-Host "$app already installed, skipping." -ForegroundColor Yellow
         continue
