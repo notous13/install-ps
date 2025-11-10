@@ -76,7 +76,9 @@ if ($choice -eq "1") {
 # --- Install loop ---
 foreach ($app in $selectedApps) {
     $installed = choco list --local-only --exact $app | Select-String "^$app"
-	$cachePath = "Z:\Auto_install\choco\install-ps\cache\${app}\${app}.nupkg"
+	#$cachePath = "Z:\Auto_install\choco\install-ps\cache\${app}\${app}.nupkg"
+	$cachePath = "Z:\Auto_install\choco\install-ps\cache\${app}\"
+	
     if ($installed) {
         Write-Host "$app already installed, skipping." -ForegroundColor Yellow
         continue
