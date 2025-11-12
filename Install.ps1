@@ -26,7 +26,7 @@ $applicationsToInstall = @(
     "7zip",
     "vscode",
     "notepadplusplus",
-    "googleearth-pro",
+    "googleearthpro",
     "foxitreader",
     "omnissa-horizon-client",
     "thunderbird",
